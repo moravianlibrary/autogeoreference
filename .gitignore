@@ -1,0 +1,5 @@
+.dep.inc
+fcgi/build
+fcgi/dist
+fcgi/nbproject/private
+uml/tmp

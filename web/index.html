@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="js/index.js"></script>
+</head>
+<body>
+  <h1>Autogeoreference</h1>
+  <div id="dialog">
+    <form onsubmit="return onFormSubmit();">
+      <table>
+        <tr>
+          <th><label for="input-georeferenced">Georeferenced</label></th>
+          <td><input type="text" name="georeferenced" id="input-georeferenced"></td>
+        </tr>
+        <tr>
+          <th><label for="input-similar">Similar</label></th>
+          <td><input type="text" name="similar" id="input-similar"></td>
+        </tr>
+        <tr>
+          <td colspan="2"><input type="submit"></td>
+        </tr>
+      </table>
+    </form>
+    <p class="note">
+      Insert Georeferencer's IDs of maps which you want to autogeoreference and push the Submit button.
+    </p>
+  </div>
+  <div id="result">
+    <img id="img-georeferenced">
+    <img id="img-similar">
+  </div>
+  <div id="loading"></div>
+</body>
+</html>

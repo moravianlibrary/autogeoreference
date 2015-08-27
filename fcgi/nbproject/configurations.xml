@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>Affine2DEstimator.h</itemPath>
+      <itemPath>AutoGeoreference.h</itemPath>
+      <itemPath>AwareImageDownloader.h</itemPath>
+      <itemPath>Controller.h</itemPath>
+      <itemPath>GeoreferencerException.h</itemPath>
+      <itemPath>GeoreferencerMetadataProvider.h</itemPath>
+      <itemPath>ImageDownloader.h</itemPath>
+      <itemPath>ImageDownloaderManager.h</itemPath>
+      <itemPath>LogicalException.h</itemPath>
+      <itemPath>MetadataProvider.h</itemPath>
+      <itemPath>Pyramid.h</itemPath>
+      <itemPath>RequestException.h</itemPath>
+      <itemPath>ZoomifyImageDownloader.h</itemPath>
+      <itemPath>ZoomifyPyramid.h</itemPath>
+      <itemPath>appio.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>Affine2DEstimator.cpp</itemPath>
+      <itemPath>AutoGeoreference.cpp</itemPath>
+      <itemPath>AwareImageDownloader.cpp</itemPath>
+      <itemPath>Controller.cpp</itemPath>
+      <itemPath>GeoreferencerMetadataProvider.cpp</itemPath>
+      <itemPath>ImageDownloaderManager.cpp</itemPath>
+      <itemPath>ZoomifyImageDownloader.cpp</itemPath>
+      <itemPath>ZoomifyPyramid.cpp</itemPath>
+      <itemPath>appio.cpp</itemPath>
+      <itemPath>main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>/usr/include/gdal</pElem>
+          </incDir>
+          <commandLine>-std=c++11</commandLine>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>gdal</linkerLibLibItem>
+            <linkerLibLibItem>gdal_correlator</linkerLibLibItem>
+            <linkerLibLibItem>PocoJSON</linkerLibLibItem>
+            <linkerLibLibItem>PocoNet</linkerLibLibItem>
+            <linkerLibLibItem>PocoFoundation</linkerLibLibItem>
+            <linkerLibLibItem>PocoNetSSL</linkerLibLibItem>
+            <linkerLibLibItem>fcgi++</linkerLibLibItem>
+            <linkerLibLibItem>fcgi</linkerLibLibItem>
+          </linkerLibItems>
+          <commandLine>`pkg-config opencv --libs`</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="Affine2DEstimator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Affine2DEstimator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AutoGeoreference.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AutoGeoreference.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AwareImageDownloader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AwareImageDownloader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Controller.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Controller.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GeoreferencerException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GeoreferencerMetadataProvider.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GeoreferencerMetadataProvider.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ImageDownloader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ImageDownloaderManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ImageDownloaderManager.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LogicalException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MetadataProvider.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Pyramid.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RequestException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ZoomifyImageDownloader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ZoomifyImageDownloader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ZoomifyPyramid.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ZoomifyPyramid.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="appio.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="appio.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>/usr/include/gdal</pElem>
+          </incDir>
+          <commandLine>-std=c++11</commandLine>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>fcgi++</linkerLibLibItem>
+            <linkerLibLibItem>fcgi</linkerLibLibItem>
+            <linkerLibLibItem>gdal</linkerLibLibItem>
+            <linkerLibLibItem>PocoFoundation</linkerLibLibItem>
+            <linkerLibLibItem>PocoJSON</linkerLibLibItem>
+            <linkerLibLibItem>PocoNet</linkerLibLibItem>
+            <linkerLibLibItem>PocoNetSSL</linkerLibLibItem>
+            <linkerLibLibItem>gdal_correlator</linkerLibLibItem>
+          </linkerLibItems>
+          <commandLine>`pkg-config opencv --libs`</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="Affine2DEstimator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Affine2DEstimator.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AutoGeoreference.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AutoGeoreference.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="AwareImageDownloader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="AwareImageDownloader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Controller.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Controller.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GeoreferencerException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="GeoreferencerMetadataProvider.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GeoreferencerMetadataProvider.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ImageDownloader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ImageDownloaderManager.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ImageDownloaderManager.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="LogicalException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="MetadataProvider.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Pyramid.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="RequestException.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ZoomifyImageDownloader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ZoomifyImageDownloader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ZoomifyPyramid.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ZoomifyPyramid.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="appio.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="appio.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

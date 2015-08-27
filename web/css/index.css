@@ -1,0 +1,44 @@
+body {
+  text-align: center;
+}
+#dialog table {
+  display: inline-block;
+}
+#dialog table td, #dialog table th {
+  padding: 3px 0 3px 0;
+}
+#dialog table th {
+  text-align: left;
+  padding-right: 5px;
+}
+.note {
+  display: inline-block;
+  color: gray;
+  width: 400px
+}
+.error {
+  background-image: url('/img/error.png');
+  background-repeat: no-repeat;
+  background-position: 175px 2px;
+}
+#loading {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 100000;
+  background-image: url("/img/ajax-loader.gif");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: white;
+  opacity: 0.7;
+}
+#result {
+  display: none;
+}
+#result img {
+  width: 700px;
+  padding: 5px;
+}
