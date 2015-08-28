@@ -22,6 +22,12 @@ public:
     static void autoGeoreference(const std::map<std::string, std::string>& params);
 private:
     static void drawPoints(cv::Mat& image, std::vector<cv::Point2f> points);
+    static cv::Mat extractMidArea(const cv::Mat& image);
+    static cv::Mat getTranslationMat(const cv::Mat& image, bool sign);
+    static cv::Mat create3x3Mat(const cv::Mat& matrix);
+    static cv::Mat create3x2Mat(const cv::Mat& matrix);
+    
+    static const int extractedImgSize;
 };
 
 #endif	/* CONTROLLER_H */

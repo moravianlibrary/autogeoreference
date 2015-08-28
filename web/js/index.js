@@ -5,7 +5,7 @@ function onFormSubmit() {
   }
   var georeferenced = document.getElementById('input-georeferenced').value;
   var similar = document.getElementById('input-similar').value;
-  var url = '/v1/autogeoreference?georeferenced=' + georeferenced + '&similar=' + similar;
+  var url = '/v1/autogeoreference?draw=true&georeferenced=' + georeferenced + '&similar=' + similar;
   document.getElementById('loading').style.display = 'block';
   ajax(url, processResponse);
   return false;
@@ -32,13 +32,18 @@ function validate() {
 }
 
 function processResponse(data) {
-  document.getElementById('dialog').style.display = 'none';
-  document.getElementById('result').style.display = 'block';
-  var georeferencedImg = document.getElementById('img-georeferenced');
-  var similarImg = document.getElementById('img-similar');
-  georeferencedImg.src = 'data:image/jpg;base64,' + data['georeferenced_image'];
-  similarImg.src = 'data:image/jpg;base64,' + data['similar_image'];
-  document.getElementById('loading').style.display = 'none';
+  if (data['status'] == 'ok') {
+    document.getElementById('dialog').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+    var georeferencedImg = document.getElementById('img-georeferenced');
+    var similarImg = document.getElementById('img-similar');
+    georeferencedImg.src = 'data:image/jpg;base64,' + data['georeferenced_image'];
+    similarImg.src = 'data:image/jpg;base64,' + data['similar_image'];
+    document.getElementById('loading').style.display = 'none';
+  } else {
+    document.getElementById('loading').style.display = 'none';
+    alert(data['message']);
+  }
 }
 
 function ajax(url, callback) {

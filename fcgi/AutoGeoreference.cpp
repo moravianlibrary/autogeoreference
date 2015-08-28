@@ -38,8 +38,8 @@ Mat AutoGeoreference::findAffineMatrix(const cv::Mat& georeferencedImage, const 
     GDALFeaturePointsCollection* similarPC = new GDALFeaturePointsCollection(similarDS);
     GDALMatchedPointsCollection* matched = new GDALMatchedPointsCollection();
     
-    int nOctStart = 3;
-    int nOctEnd = 3;
+    int nOctStart = 1;
+    int nOctEnd = 4;
     double dfSURFTreshold = 0.001;
     double dfMatchingThreshold = 0.015;
     

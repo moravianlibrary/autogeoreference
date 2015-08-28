@@ -17,6 +17,8 @@
 using namespace std;
 using namespace cv;
 
+const int Controller::extractedImgSize = 1000;
+
 Controller::Controller() {
 }
 
@@ -52,7 +54,14 @@ void Controller::autoGeoreference(const std::map<std::string, std::string>& para
     Mat georeferencedImage = imageDownloaderGeoreferenced.download(metaProviderGeoreferenced.getPyramid());
     Mat similarImage = imageDownloaderSimilar.download(metaProviderSimilar.getPyramid());
     
-    Mat matrix = AutoGeoreference::findAffineMatrix(georeferencedImage, similarImage);
+    Mat georeferencedImageMid = extractMidArea(georeferencedImage);
+    Mat similarImageMid = extractMidArea(similarImage);
+    
+    Mat matrix = AutoGeoreference::findAffineMatrix(georeferencedImageMid, similarImageMid);
+    matrix = create3x3Mat(matrix);
+    matrix = getTranslationMat(similarImage, true) * matrix * getTranslationMat(georeferencedImage, false);
+    matrix = create3x2Mat(matrix);
+    
     double resizeRatio = georeferencedImage.cols * 1.0 / metaProviderGeoreferenced.getPyramid().getWidth();
     
     if (draw) {
@@ -79,4 +88,39 @@ void Controller::drawPoints(cv::Mat& image, std::vector<cv::Point2f> points) {
     for (auto point : points) {
         circle(image, point, 10, redColor, -1);
     }
+}
+
+Mat Controller::extractMidArea(const cv::Mat& image) {
+    int midx = image.cols / 2;
+    int midy = image.rows / 2;
+    
+    return image(Range(midy - extractedImgSize / 2, midy + extractedImgSize / 2),
+                 Range(midx - extractedImgSize / 2, midx + extractedImgSize / 2));
+}
+
+Mat Controller::getTranslationMat(const cv::Mat& image, bool sign) {
+    Mat matrix = Mat::eye(3, 3, CV_64F);
+    int translateX = (image.cols - extractedImgSize) / 2;
+    int translateY = (image.rows - extractedImgSize) / 2;
+    if (sign) {
+        matrix.at<double>(0, 2) = translateX;
+        matrix.at<double>(1, 2) = translateY;
+    } else {
+        matrix.at<double>(0, 2) = -translateX;
+        matrix.at<double>(1, 2) = -translateY;
+    }
+    return matrix;
+}
+
+Mat Controller::create3x3Mat(const cv::Mat& matrix) {
+    Mat out = Mat::eye(3, 3, CV_64F);
+    matrix.copyTo(out(Range(0, 2), Range(0, 3)));
+    return out;
+}
+
+Mat Controller::create3x2Mat(const cv::Mat& matrix) {
+    Mat out;
+    out.push_back(matrix.row(0));
+    out.push_back(matrix.row(1));
+    return out;
 }
