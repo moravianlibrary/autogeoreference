@@ -2,8 +2,8 @@ FROM debian:jessie
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -y && \
-    apt-get install -y \
+RUN apt-get update -y --force-yes && \
+    apt-get install -y --force-yes \
       build-essential \
       wget \
       unzip \
