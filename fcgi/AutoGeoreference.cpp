@@ -96,9 +96,10 @@ Mat AutoGeoreference::findAffineMatrix(const cv::Mat& georeferencedImage, const 
     return output;
 }
 
-void AutoGeoreference::applyMatrix(cv::Mat matrix, double ratio, const std::vector<cv::Point2f>& in, std::vector<cv::Point2f>& out) {
-    Mat resizeMat = Mat::eye(2, 2, CV_32F) * ratio;
-    transform(in, out, resizeMat);
+void AutoGeoreference::applyMatrix(cv::Mat matrix, double georeferencedRatio, double similarRatio, const std::vector<cv::Point2f>& in, std::vector<cv::Point2f>& out) {
+    Mat georeferencedResizeMat = Mat::eye(2, 2, CV_32F) * georeferencedRatio;
+    Mat similarResizeMat = Mat::eye(2, 2, CV_32F) * (1.0 / similarRatio);
+    transform(in, out, georeferencedResizeMat);
     transform(out, out, matrix);
-    transform(out, out, resizeMat.inv());
+    transform(out, out, similarResizeMat);
 }

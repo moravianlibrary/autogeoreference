@@ -62,11 +62,12 @@ void Controller::autoGeoreference(const std::map<std::string, std::string>& para
     matrix = getTranslationMat(similarImage, true) * matrix * getTranslationMat(georeferencedImage, false);
     matrix = create3x2Mat(matrix);
     
-    double resizeRatio = georeferencedImage.cols * 1.0 / metaProviderGeoreferenced.getPyramid().getWidth();
+    double resizeGeoreferencedRatio = georeferencedImage.cols * 1.0 / metaProviderGeoreferenced.getPyramid().getWidth();
+    double resizeSimilarRatio = similarImage.cols * 1.0 / metaProviderSimilar.getPyramid().getWidth();
     
     if (draw) {
         vector<Point2f> similarPoints;
-        Mat resizeMatrix = Mat::eye(2, 2, CV_32F) * resizeRatio;
+        Mat resizeMatrix = Mat::eye(2, 2, CV_32F) * resizeGeoreferencedRatio;
         // Resize original pixel points to fit the scaled image
         transform(metaProviderGeoreferenced.getPixelPoints(), similarPoints, resizeMatrix);
         // Draw resized points to the scaled image
@@ -78,7 +79,7 @@ void Controller::autoGeoreference(const std::map<std::string, std::string>& para
     }
     
     vector<Point2f> outPoints;
-    AutoGeoreference::applyMatrix(matrix, resizeRatio, metaProviderGeoreferenced.getPixelPoints(), outPoints);
+    AutoGeoreference::applyMatrix(matrix, resizeGeoreferencedRatio, resizeSimilarRatio, metaProviderGeoreferenced.getPixelPoints(), outPoints);
     
     appio::print_ok(outPoints, metaProviderGeoreferenced.getGpsPoints(), georeferencedImage, similarImage, draw);
 }
