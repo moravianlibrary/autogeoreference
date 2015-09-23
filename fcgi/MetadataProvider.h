@@ -18,9 +18,10 @@
 class MetadataProvider {
     
 public:
-    virtual const Pyramid& getPyramid() = 0;
-    virtual const std::vector<cv::Point2f>& getPixelPoints() = 0;
-    virtual const std::vector<cv::Point2f>& getGpsPoints() = 0;
+    virtual const Pyramid& getPyramid() const = 0;
+    virtual const std::vector<cv::Point2f>& getPixelPoints() const = 0;
+    virtual const std::vector<cv::Point2f>& getGpsPoints() const = 0;
+    virtual const std::vector<cv::Point2i>& getCutLine() const = 0;
 };
 
 #endif	/* METADATAPROVIDER_H */

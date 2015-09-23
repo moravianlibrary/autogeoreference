@@ -17,7 +17,7 @@
 using namespace std;
 using namespace cv;
 
-const int Controller::extractedImgSize = 2000;
+int Controller::longerSide = 1000;
 
 Controller::Controller() {
 }
@@ -59,19 +59,19 @@ void Controller::autoGeoreference(const std::map<std::string, std::string>& para
     Mat georeferencedImage = imageDownloaderGeoreferenced.download(metaProviderGeoreferenced.getPyramid());
     Mat similarImage = imageDownloaderSimilar.download(metaProviderSimilar.getPyramid());
     
+    resize(georeferencedImage);
+    resize(similarImage);
+    
     Mat georeferencedDrawImage = georeferencedImage.clone();
     Mat similarDrawImage = similarImage.clone();
     
-    Mat georeferencedImageMid = extractMidArea(georeferencedImage);
-    Mat similarImageMid = extractMidArea(similarImage);
+    applyCutline(georeferencedImage, metaProviderGeoreferenced);
+    applyCutline(similarImage, metaProviderSimilar);
     
     vector<Point2f> debugGeoreferencedPoints;
     vector<Point2f> debugSimilarPoints;
     
-    Mat matrix = AutoGeoreference::findAffineMatrix(georeferencedImageMid, similarImageMid, debugGeoreferencedPoints, debugSimilarPoints);
-    matrix = create3x3Mat(matrix);
-    matrix = getTranslationMat(similarImage, true) * matrix * getTranslationMat(georeferencedImage, false);
-    matrix = create3x2Mat(matrix);
+    Mat matrix = AutoGeoreference::findAffineMatrix(georeferencedImage, similarImage, debugGeoreferencedPoints, debugSimilarPoints);
     
     double resizeGeoreferencedRatio = georeferencedImage.cols * 1.0 / metaProviderGeoreferenced.getPyramid().getWidth();
     double resizeSimilarRatio = similarImage.cols * 1.0 / metaProviderSimilar.getPyramid().getWidth();
@@ -95,7 +95,7 @@ void Controller::autoGeoreference(const std::map<std::string, std::string>& para
     if (debug) {
         int width = georeferencedImage.cols + similarImage.cols;
         int height = max(georeferencedImage.rows, similarImage.rows);
-        Mat debugImage = Mat::zeros(height, width, CV_8UC3);
+        Mat debugImage = Mat::ones(height, width, CV_8UC3);
         georeferencedImage.copyTo(debugImage(
                 Range(0, georeferencedImage.rows),
                 Range(0, georeferencedImage.cols)));
@@ -112,7 +112,7 @@ void Controller::autoGeoreference(const std::map<std::string, std::string>& para
 void Controller::drawPoints(cv::Mat& image, const std::vector<cv::Point2f>& points) {
     const Scalar redColor(0, 0, 255);
     for (auto point : points) {
-        circle(image, point, 10, redColor, -1);
+        circle(image, point, 3, redColor, -1);
     }
 }
 
@@ -124,54 +124,35 @@ void Controller::drawDebugPoints(
         const std::vector<cv::Point2f>& similarPoints) {
     
     const Scalar redColor(0, 0, 255);
-    int georeferencedTranslateX = (georeferencedImage.cols - extractedImgSize) / 2;
-    int georeferencedTranslateY = (georeferencedImage.rows - extractedImgSize) / 2;
-    int similarTranslateX = (similarImage.cols - extractedImgSize) / 2;
-    int similarTranslateY = (similarImage.rows - extractedImgSize) / 2;
     
     for (int i = 0; i < georeferencedPoints.size(); i++) {
         Point2f georeferencedPoint = georeferencedPoints[i];
         Point2f similarPoint = similarPoints[i];
-        georeferencedPoint.x += georeferencedTranslateX;
-        georeferencedPoint.y += georeferencedTranslateY;
-        similarPoint.x += georeferencedImage.cols + similarTranslateX;
-        similarPoint.y += similarTranslateY;
+        similarPoint.x += georeferencedImage.cols;
         
-        line(debugImage, georeferencedPoint, similarPoint, redColor, 4);
+        line(debugImage, georeferencedPoint, similarPoint, redColor, 1);
     }
 }
 
-Mat Controller::extractMidArea(const cv::Mat& image) {
-    int midx = image.cols / 2;
-    int midy = image.rows / 2;
+void Controller::applyCutline(cv::Mat& image, const MetadataProvider& metadata) {
+    if (!metadata.getCutLine().size()) {
+        return;
+    }
+    Mat mask = Mat::zeros(image.rows, image.cols, CV_8UC1);
+    Mat out = Mat::ones(image.rows, image.cols, CV_8UC3);
+    Mat scale = Mat::eye(2, 2, CV_32F) * (1.0 * image.cols / metadata.getPyramid().getWidth());
+    vector<vector<Point2i> > fillContAll;
+    vector<Point2i> cutline = metadata.getCutLine();
+    transform(cutline, cutline, scale);
+    fillContAll.push_back(cutline);
+    fillPoly(mask, fillContAll, Scalar(1));
     
-    return image(Range(midy - extractedImgSize / 2, midy + extractedImgSize / 2),
-                 Range(midx - extractedImgSize / 2, midx + extractedImgSize / 2));
+    image.copyTo(out, mask);
+    image = out;
 }
 
-Mat Controller::getTranslationMat(const cv::Mat& image, bool sign) {
-    Mat matrix = Mat::eye(3, 3, CV_64F);
-    int translateX = (image.cols - extractedImgSize) / 2;
-    int translateY = (image.rows - extractedImgSize) / 2;
-    if (sign) {
-        matrix.at<double>(0, 2) = translateX;
-        matrix.at<double>(1, 2) = translateY;
-    } else {
-        matrix.at<double>(0, 2) = -translateX;
-        matrix.at<double>(1, 2) = -translateY;
-    }
-    return matrix;
-}
-
-Mat Controller::create3x3Mat(const cv::Mat& matrix) {
-    Mat out = Mat::eye(3, 3, CV_64F);
-    matrix.copyTo(out(Range(0, 2), Range(0, 3)));
-    return out;
-}
-
-Mat Controller::create3x2Mat(const cv::Mat& matrix) {
-    Mat out;
-    out.push_back(matrix.row(0));
-    out.push_back(matrix.row(1));
-    return out;
+void Controller::resize(cv::Mat& image) {
+    int side = max(image.rows, image.cols);
+    double ratio = 1.0 * longerSide / side;
+    cv::resize(image, image, Size(image.cols * ratio, image.rows * ratio));
 }

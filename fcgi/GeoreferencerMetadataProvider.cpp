@@ -130,4 +130,16 @@ void GeoreferencerMetadataProvider::parsePoints(const Poco::Dynamic::Var& json, 
         pixelPoints.push_back(cv::Point2f(x, y));
         gpsPoints.push_back(cv::Point2f(lon, lat));
     }
+    
+    if (jsonPtr->has("cutline") && jsonPtr->get("cutline").type() == typeid(Array::Ptr)) {
+        
+        Array::Ptr cutline = jsonPtr->get("cutline").extract<Array::Ptr>();
+        for (Array::ConstIterator it = cutline->begin(); it != cutline->end(); it++) {
+            Array::Ptr item = it->extract<Array::Ptr>();
+            float x = item->getElement<int>(0);
+            float y = item->getElement<int>(1);
+            
+            cutlinePoints.push_back(cv::Point2f(x, y));
+        }
+    }
 }

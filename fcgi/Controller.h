@@ -14,6 +14,8 @@
 
 #include <opencv2/opencv.hpp>
 
+#include "MetadataProvider.h"
+
 class Controller {
 public:
     Controller();
@@ -28,12 +30,10 @@ private:
         const cv::Mat& similarImage,
         const std::vector<cv::Point2f>& georeferencedPoints,
         const std::vector<cv::Point2f>& similarPoints);
-    static cv::Mat extractMidArea(const cv::Mat& image);
-    static cv::Mat getTranslationMat(const cv::Mat& image, bool sign);
-    static cv::Mat create3x3Mat(const cv::Mat& matrix);
-    static cv::Mat create3x2Mat(const cv::Mat& matrix);
+    static void applyCutline(cv::Mat& image, const MetadataProvider& metadata);
+    static void resize(cv::Mat& image);
     
-    static const int extractedImgSize;
+    static int longerSide;
 };
 
 #endif	/* CONTROLLER_H */
