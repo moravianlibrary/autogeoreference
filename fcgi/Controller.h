@@ -21,7 +21,13 @@ public:
     
     static void autoGeoreference(const std::map<std::string, std::string>& params);
 private:
-    static void drawPoints(cv::Mat& image, std::vector<cv::Point2f> points);
+    static void drawPoints(cv::Mat& image, const std::vector<cv::Point2f>& points);
+    static void drawDebugPoints(
+        cv::Mat& debugImage,
+        const cv::Mat& georeferencedImage,
+        const cv::Mat& similarImage,
+        const std::vector<cv::Point2f>& georeferencedPoints,
+        const std::vector<cv::Point2f>& similarPoints);
     static cv::Mat extractMidArea(const cv::Mat& image);
     static cv::Mat getTranslationMat(const cv::Mat& image, bool sign);
     static cv::Mat create3x3Mat(const cv::Mat& matrix);

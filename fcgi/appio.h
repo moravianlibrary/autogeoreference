@@ -21,6 +21,8 @@ namespace appio {
     
     void print_ok(const std::vector<cv::Point2f>& pixelPoints, const std::vector<cv::Point2f>& gpsPoints, const cv::Mat& georeferencedImg, const cv::Mat& similarImg, bool draw);
     
+    void print_ok(const std::vector<cv::Point2f>& pixelPoints, const std::vector<cv::Point2f>& gpsPoints, const cv::Mat& georeferencedImg, const cv::Mat& similarImg, bool draw, const cv::Mat& debugImage);
+    
     void print_error(const std::string& message);
     
     void print_error(const char* message);

@@ -14,7 +14,7 @@
 
 class AutoGeoreference {
 public:
-    static cv::Mat findAffineMatrix(const cv::Mat& georeferencedImage, const cv::Mat& similarImage);
+    static cv::Mat findAffineMatrix(const cv::Mat& georeferencedImage, const cv::Mat& similarImage, std::vector<cv::Point2f>& georeferencedPointsOut, std::vector<cv::Point2f>& similarPointsOut);
     static void applyMatrix(cv::Mat matrix, double georeferencedRatio, double similarRatio, const std::vector<cv::Point2f>& in, std::vector<cv::Point2f>& out);
 };
 

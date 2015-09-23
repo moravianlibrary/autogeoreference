@@ -17,7 +17,7 @@
 using namespace std;
 using namespace cv;
 
-Mat AutoGeoreference::findAffineMatrix(const cv::Mat& georeferencedImage, const cv::Mat& similarImage) {
+Mat AutoGeoreference::findAffineMatrix(const cv::Mat& georeferencedImage, const cv::Mat& similarImage, std::vector<cv::Point2f>& georeferencedPointsOut, std::vector<cv::Point2f>& similarPointsOut) {
     
     char georeferencedPath[] = "/tmp/autogeoreference-georeferencedXXXXXX.jpg";
     char similarPath[] = "/tmp/autogeoreference-similarXXXXXX.jpg";
@@ -73,6 +73,9 @@ Mat AutoGeoreference::findAffineMatrix(const cv::Mat& georeferencedImage, const 
 
         georeferencedPoints.push_back(Point2f(point_1->GetX(), point_1->GetY()));
         similarPoints.push_back(Point2f(point_2->GetX(), point_2->GetY()));
+        
+        georeferencedPointsOut.push_back(Point2f(point_1->GetX(), point_1->GetY()));
+        similarPointsOut.push_back(Point2f(point_2->GetX(), point_2->GetY()));
     }
     
     // clean up

@@ -116,6 +116,37 @@ void appio::print_ok(const std::vector<cv::Point2f>& pixelPoints, const std::vec
     Stringifier::stringify(root, cout);
 }
 
+void appio::print_ok(const std::vector<cv::Point2f>& pixelPoints, const std::vector<cv::Point2f>& gpsPoints, const cv::Mat& georeferencedImg, const cv::Mat& similarImg, bool draw, const cv::Mat& debugImage) {
+    print_header();
+    
+    Array controlPoints;
+    
+    if (pixelPoints.size() != gpsPoints.size()) {
+        throw LogicalException("pixelPoints.size() != gpsPoints.size()");
+    }
+    
+    for (int i = 0; i < pixelPoints.size(); i++) {
+        Object controlPoint;
+        controlPoint.set("pixel_x", (int) round(pixelPoints[i].x));
+        controlPoint.set("pixel_y", (int) round(pixelPoints[i].y));
+        controlPoint.set("longitude", gpsPoints[i].x);
+        controlPoint.set("latitude", gpsPoints[i].y);
+        controlPoints.add(controlPoint);
+    }
+    
+    Object root;
+    root.set("status", "ok");
+    root.set("control_points", controlPoints);
+    if (draw) {
+        root.set("georeferenced_image", image_to_base64(georeferencedImg));
+        root.set("similar_image", image_to_base64(similarImg));
+    }
+    
+    root.set("debug_image", image_to_base64(debugImage));
+    
+    Stringifier::stringify(root, cout);
+}
+
 void appio::print_error(const string& message) {
     print_header();
     Object root;
