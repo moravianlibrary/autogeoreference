@@ -46,5 +46,7 @@ RUN cd /build/fcgi && make -e CONF=Release
 
 COPY web /var/www/html
 
+EXPOSE 80
+
 COPY init.sh /init.sh
 ENTRYPOINT ["/init.sh"]
